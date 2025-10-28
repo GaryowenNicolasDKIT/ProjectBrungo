@@ -742,6 +742,7 @@ GameObject:
   - component: {fileID: 717244872}
   - component: {fileID: 717244878}
   - component: {fileID: 717244877}
+  - component: {fileID: 717244879}
   - component: {fileID: 717244880}
   m_Layer: 9
   m_Name: Player
@@ -931,6 +932,18 @@ MonoBehaviour:
   halfHeart: {fileID: -1303550226, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
   emptyHeart: {fileID: 1577881782, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
   player: {fileID: 717244872}
+--- !u!114 &717244879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717244871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a978981dfe3c9044bbc5c927aeeb67f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sniffer
 --- !u!50 &717244880
 Rigidbody2D:
   serializedVersion: 5
@@ -1145,7 +1158,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253120616}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f390c81ebf900e4bb6349f5aefdf141, type: 3}
   m_Name: 
@@ -3141,7 +3154,7 @@ Transform:
   m_GameObject: {fileID: 1380353477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.91, y: -6.17, z: 0}
+  m_LocalPosition: {x: -9.02, y: -6.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

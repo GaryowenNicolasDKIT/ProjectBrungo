@@ -1,6 +1,7 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class Enemy : MonoBehaviour
@@ -22,14 +23,18 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAwarenessController playerAwarenessController;
     private Vector2 targetDirection;
+    private Vector2 wallDirection;
     private Animator animator;
     private bool idle = false;
     private Vector2 lastMovementDirection = Vector2.down;
+    private bool clearDirection;
+    private Vector2 lastPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
+        idle = true;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAwarenessController = GetComponent<PlayerAwarenessController>();
@@ -42,46 +47,82 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-
+        lastPosition = rb.position;
         UpdateTargetDirection();
         SetVelocity();
         movementStopper();
         timeDirection += Time.deltaTime;
         movementStop -= Time.deltaTime;
-        updateAnimation(targetDirection, lastMovementDirection);
+        //updateAnimation(targetDirection, lastMovementDirection);
+        if (rb.position == lastPosition)
+        {
+            //idle = true;
+            //animator.SetBool("isIdle", idle);
+        }
         
 
     }
 
     private void UpdateTargetDirection()
     {
-        idle = false;
+        
         if (playerAwarenessController.AwareOfPlayer && trackPlayer == true)
         {
+            idle = false;
+            animator.SetBool("isIdle", idle);
             lastMovementDirection = targetDirection;
             targetDirection = playerAwarenessController.DirectionToPlayer;
+            updateAnimation(targetDirection, lastMovementDirection);
         }
         else if (timeDirection > totalTimeDirection)
         {
-            idle = true;
-            animator.SetBool("isIdle", idle);
+            //idle = true;
+            //animator.SetBool("isIdle", idle);
             timeDirection = 0;
-            decideDirection = rnd.Next(1, 4);
-            if (decideDirection == 1)
+            clearDirection = false;
+            while (clearDirection == false)
             {
-                targetDirection = Vector2.left;
-            }
-            else if (decideDirection == 2)
-            {
-                targetDirection = Vector2.up;
-            }
-            else if (decideDirection == 3)
-            {
-                targetDirection = Vector2.right;
-            }
-            else
-            {
-                targetDirection = Vector2.down;
+                decideDirection = rnd.Next(1, 5);
+                    if (decideDirection == 1)
+                    {
+                        Debug.Log("Movement Direction set to Left");
+                        targetDirection = Vector2.left;
+                        animator.SetInteger("Facing", -1);
+                    }
+                    else if (decideDirection == 2)
+                    {
+                        Debug.Log("Movement Direction set to Up");
+                        targetDirection = Vector2.up;
+                        animator.SetInteger("Facing", -2);
+                    }
+                    else if (decideDirection == 3)
+                    {
+                        Debug.Log("Movement Direction set to Left");
+                        targetDirection = Vector2.right;
+                        animator.SetInteger("Facing", 1);
+                    }
+                    else
+                    {
+                        Debug.Log("Movement Direction set to Down");
+                        targetDirection = Vector2.down;
+                        animator.SetInteger("Facing", 2);
+                    }
+                if (targetDirection.x != wallDirection.x && targetDirection.y != wallDirection.y)
+                {
+                    Debug.Log("Momement Direction " + targetDirection + " Seen as clear");
+                    clearDirection = true;
+                    //animator.SetInteger("Direction", decideDirection);
+                }
+                else
+                {
+                    targetDirection *= -1;
+                    animator.SetInteger("Facing",(animator.GetInteger("Facing") * -1));
+                    clearDirection = true;
+                    Debug.Log("Movement Direction Inversion (" + targetDirection + ") Seen as clear");
+                    //animator.SetInteger("Direction", decideDirection);
+                }
+
+                
             }
         }
     }
@@ -97,6 +138,11 @@ public class Enemy : MonoBehaviour
         if(collision.gameObject.tag != "Player")
         {
             rb.linearVelocity = Vector2.zero;
+            idle = true;
+            animator.SetBool("isIdle", idle);
+            timeDirection = totalTimeDirection + 1;
+            wallDirection = targetDirection;
+            Debug.Log("Wall Collision");
         }
     }
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
@@ -150,6 +196,7 @@ public class Enemy : MonoBehaviour
         if(movementStop > 0)
         {
             idle = true;
+            Debug.Log("Idle set to True");
             animator.SetBool("isIdle", idle);
             rb.linearVelocity = Vector2.zero;
         }
@@ -157,8 +204,6 @@ public class Enemy : MonoBehaviour
     }
     private void updateAnimation(Vector2 move, Vector2 lastMove)
     {
-        animator.SetFloat("MoveX", move.x);
-        animator.SetFloat("MoveY", move.y);
         if (idle != true)
         {
             if (move.x > 0 && move.y != 1)
@@ -167,39 +212,43 @@ public class Enemy : MonoBehaviour
             }
             else if (move.x < 0 && move.y != 1)
             {
-                Debug.Log("Direction -1");
                 animator.SetInteger("Facing", -1); // Animation Left
             }
-            else if (move.y < 0 && move.x != 1)
+            //else if ((move.y < 0 && move.x != 1) || (move.y < -0.5 && move.x != 1)) < Attempt to Make Down Happen More
+            else if (move.y < 0 && move.x < 1)
             {
-                Debug.Log("Direction -1");
                 animator.SetInteger("Facing", -2); // Animation Down
             }
+            //else if (move.y > 0 && move.x != 1 || (move.y > 0.5 && move.x != 1)) < Attemt to Make Up Happen More
             else if (move.y > 0 && move.x != 1)
             {
-                Debug.Log("Direction 2");
                 animator.SetInteger("Facing", 2); // Animation Up
             }
         }
-        else
-        {
-            if (lastMove.x > 0 && lastMove.y != 1)
-            {
-                animator.SetInteger("Facing", 1); // Animation Right
+        //else
+        //{
+        //    if (lastMove.x > 0 && lastMove.y != 1)
+        //    {
+        //        Debug.Log("Facing set to Right");
+        //        animator.SetInteger("Facing", 1); // Animation Right
 
-            }
-            else if (lastMove.x < 0 && lastMove.y != 1)
-            {
-                animator.SetInteger("Facing", -1); // Animation Left
-            }
-            else if (lastMove.y < 0 && lastMove.x != 1)
-            {
-                animator.SetInteger("Facing", -2); // Animation Down
-            }
-            else if (lastMove.y > 0 && lastMove.x != 1)
-            {
-                animator.SetInteger("Facing", 2); // Animation Up
-            }
-        }
+        //    }
+        //    else if (lastMove.x < 0 && lastMove.y != 1)
+        //    {
+        //        Debug.Log("Facing set to Left");
+        //        animator.SetInteger("Facing", -1); // Animation Left
+        //    }
+        //    //else if ((lastMove.y < 0 && lastMove.x != 1) || (lastMove.y < -0.5 && lastMove.x != 1))
+        //    else if (lastMove.y < 0 && lastMove.x < 1)
+        //    {
+
+        //        animator.SetInteger("Facing", -2); // Animation Down
+        //    }
+        //    //else if ((lastMove.y > 0 && lastMove.x != 1) || (lastMove.y > 0.5 && lastMove.x != 1))
+        //    else if (lastMove.y > 0 && lastMove.x != 1)
+        //    { 
+        //        animator.SetInteger("Facing", 2); // Animation Up
+        //    }
+        //}
     }
 }
