@@ -10,6 +10,7 @@ public class EnemyNew : MonoBehaviour
     public float totalFreezeTime = 1f;
     public float totalTimeDirection = 3f;
     public float totalMovementStop = 1f;
+    public int EnemyRoomNumber;
 
     [Header("References")]
     public GameObject hitbox;
@@ -18,7 +19,7 @@ public class EnemyNew : MonoBehaviour
 
     private Animator animator;
     private Health playerHealth;
-    private Player playerMovement;
+    private Player player;
     private Rigidbody2D rb;
     private PlayerAwarenessController playerAwarenessController;
 
@@ -27,10 +28,12 @@ public class EnemyNew : MonoBehaviour
     private float freezeTime;
     private float movementStop;
     private float timeDirection;
-    private Vector2 targetDirection;
-    private Vector2 wallDirection;
     private Vector2 oldPosition;
     private Vector2 olderPosition;
+    private Vector2 StartPosition;
+    private Vector2 targetDirection;
+    private Vector2 wallDirection;
+
 
     private System.Random rnd = new System.Random();
 
@@ -39,75 +42,83 @@ public class EnemyNew : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAwarenessController = GetComponent<PlayerAwarenessController>();
-        playerMovement = (Player)GameObject.Find("Player").GetComponent<Player>();
+        player = (Player)GameObject.Find("Player").GetComponent<Player>();
         playerHealth = (Health)GameObject.Find("Player").GetComponent<Health>();
-        idle = true;
-        animator.SetBool("isIdle", idle);
-        movementStop = totalMovementStop;
-        PickNewDirection();
+        StartPosition = transform.position;
     }
 
     void FixedUpdate()
     {
-        // Timer updates
-        freezeTime -= Time.deltaTime;
-        timeDirection += Time.deltaTime;
-        movementStop -= Time.deltaTime;
-
-        // Idle Failsafe
-        Vector2 currentPosition = rb.position;
-        bool positionUnchanged =
-            Vector2.Distance(currentPosition, oldPosition) < 0.001f &&
-            Vector2.Distance(oldPosition, olderPosition) < 0.001f;
-
-        // If frozen (e.g., just hit player)
-        if (freezeTime > 0)
+        if (player.RoomNumber == EnemyRoomNumber)
         {
-            if (positionUnchanged)
-                SetIdle(true);
-            rb.linearVelocity = Vector2.zero;
-            UpdatePositions(currentPosition);
-            return;
-        }
+            // Timer updates
+            freezeTime -= Time.deltaTime;
+            timeDirection += Time.deltaTime;
+            movementStop -= Time.deltaTime;
 
-        // If chasing player
-        if (playerAwarenessController.AwareOfPlayer && trackPlayer)
-        {
-            ChasePlayer();
-            UpdatePositions(currentPosition);
-            return;
-        }
+            // Idle Failsafe
+            Vector2 currentPosition = rb.position;
+            bool positionUnchanged =
+                Vector2.Distance(currentPosition, oldPosition) < 0.001f &&
+                Vector2.Distance(oldPosition, olderPosition) < 0.001f;
 
-        // Handle idle vs movement cycle
-        if (idle)
-        {
-            rb.linearVelocity = Vector2.zero;
-
-            // After idle time expires, start moving again
-            if (movementStop <= 0)
+            // If frozen (e.g., just hit player)
+            if (freezeTime > 0)
             {
-                SetIdle(false);
-                PickNewDirection();
+                if (positionUnchanged)
+                    SetIdle(true);
+                rb.linearVelocity = Vector2.zero;
+                UpdatePositions(currentPosition);
+                return;
             }
+
+            // If chasing player
+            if (playerAwarenessController.AwareOfPlayer && trackPlayer)
+            {
+                ChasePlayer();
+                UpdatePositions(currentPosition);
+                return;
+            }
+
+            // Handle idle vs movement cycle
+            if (idle)
+            {
+                rb.linearVelocity = Vector2.zero;
+
+                // After idle time expires, start moving again
+                if (movementStop <= 0)
+                {
+                    SetIdle(false);
+                    PickNewDirection();
+                }
+            }
+            else
+            {
+                rb.linearVelocity = targetDirection * enemySpeed;
+
+                // After moving for a set duration, pause again
+                if (timeDirection >= totalTimeDirection)
+                {
+                    SetIdle(true);
+                    rb.linearVelocity = Vector2.zero;
+
+                    // Reset timers for next cycle
+                    timeDirection = 0;
+                    movementStop = totalMovementStop;
+                }
+            }
+
+            // Update stored positions at the end
+            UpdatePositions(currentPosition);
         }
         else
         {
-            rb.linearVelocity = targetDirection * enemySpeed;
-
-            // After moving for a set duration, pause again
-            if (timeDirection >= totalTimeDirection)
-            {
-                SetIdle(true);
-                rb.linearVelocity = Vector2.zero;
-
-                // Reset timers for next cycle
-                timeDirection = 0;
-                movementStop = totalMovementStop;
-            }
+            rb.MovePosition(StartPosition);
+            idle = true;
+            animator.SetBool("isIdle", idle);
+            movementStop = totalMovementStop;
+            PickNewDirection();
         }
-
-        // Update stored positions at the end
-        UpdatePositions(currentPosition);
     }
 
     private void PickNewDirection()
@@ -158,42 +169,42 @@ public class EnemyNew : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerMovement.KBCounter = playerMovement.KBTotalTime;
+            player.KBCounter = player.KBTotalTime;
             if (collision.transform.position.x <= transform.position.x && (collision.transform.position.y + 4 >= transform.position.y && collision.transform.position.y + 4 < transform.position.y))
             {
-                playerMovement.KBFromDirection.Set(1, 0);
+                player.KBFromDirection.Set(1, 0);
             }
             else if (collision.transform.position.x <= transform.position.x && collision.transform.position.y <= transform.position.y)
             {
-                playerMovement.KBFromDirection.Set(1, 1);
+                player.KBFromDirection.Set(1, 1);
             }
             else if (collision.transform.position.x <= transform.position.x && collision.transform.position.y > transform.position.y)
             {
-                playerMovement.KBFromDirection.Set(1, -1);
+                player.KBFromDirection.Set(1, -1);
             }
 
 
             else if (collision.transform.position.x > transform.position.x && (collision.transform.position.y + 4 >= transform.position.y && collision.transform.position.y + 4 < transform.position.y))
             {
-                playerMovement.KBFromDirection.Set(-1, 0);
+                player.KBFromDirection.Set(-1, 0);
             }
             else if (collision.transform.position.x > transform.position.x && collision.transform.position.y <= transform.position.y)
             {
-                playerMovement.KBFromDirection.Set(-1, 1);
+                player.KBFromDirection.Set(-1, 1);
             }
             else if (collision.transform.position.x > transform.position.x && collision.transform.position.y > transform.position.y)
             {
-                playerMovement.KBFromDirection.Set(-1, -1);
+                player.KBFromDirection.Set(-1, -1);
             }
 
 
             else if (collision.transform.position.y <= transform.position.y && (collision.transform.position.x + 4 >= transform.position.x && collision.transform.position.x + 4 < transform.position.x))
             {
-                playerMovement.KBFromDirection.Set(0, 1);
+                player.KBFromDirection.Set(0, 1);
             }
             else if (collision.transform.position.y > transform.position.y && (collision.transform.position.x + 4 >= transform.position.x && collision.transform.position.x + 4 < transform.position.x))
             {
-                playerMovement.KBFromDirection.Set(0, -1);
+                player.KBFromDirection.Set(0, -1);
             }
            
             playerHealth.TakeDamage(damage);

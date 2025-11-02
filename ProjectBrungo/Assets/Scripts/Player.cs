@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float KBForce;
     public float KBCounter;
     public float KBTotalTime;
+    public int RoomNumber;
     public Vector2 KBFromDirection;
     
     private const string flashRedAnim = "FlashRed";
