@@ -157,6 +157,9 @@ MonoBehaviour:
   KBForce: 3
   KBCounter: 0
   KBTotalTime: 0.2
+  RoomNumber: 0
+  swordPrefab: {fileID: 4524236273265503258, guid: d7e3f3caf5da7c34f80b63eaaa71fa00, type: 3}
+  sword: {fileID: -7284571146840742854, guid: d7e3f3caf5da7c34f80b63eaaa71fa00, type: 3}
   KBFromDirection: {x: 0, y: 0}
 --- !u!114 &4975095895388396714
 MonoBehaviour:
@@ -171,16 +174,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   health: 3
+  keyAmount: 0
   maxHealth: 3
   numHearts: 3
+  key: {fileID: 0}
+  keyBig: {fileID: 0}
+  keyKing: {fileID: 0}
   hearts:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  emptyHeart: {fileID: 1577881782, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
   fullHeart: {fileID: -3946969666884724720, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
   halfHeart: {fileID: -1303550226, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
-  emptyHeart: {fileID: 1577881782, guid: 8a3745375fc39e640885099bf2f38152, type: 3}
   player: {fileID: 6551265802944262560}
+  keyText: {fileID: 0}
+  keyBigText: {fileID: 0}
+  keyKingText: {fileID: 0}
 --- !u!95 &2047807056188691126
 Animator:
   serializedVersion: 7

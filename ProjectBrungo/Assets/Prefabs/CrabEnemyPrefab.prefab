@@ -189,9 +189,11 @@ MonoBehaviour:
   trackPlayer: 1
   damage: 0.5
   enemySpeed: 3
+  enemyHealth: 4
   totalFreezeTime: 1
   totalTimeDirection: 2
   totalMovementStop: 1
+  EnemyRoomNumber: 0
   hitbox: {fileID: 4298615359766725668}
 --- !u!114 &2331875509042608087
 MonoBehaviour:

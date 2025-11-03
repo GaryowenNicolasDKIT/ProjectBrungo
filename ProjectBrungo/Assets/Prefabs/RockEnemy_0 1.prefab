@@ -198,6 +198,7 @@ MonoBehaviour:
   trackPlayer: 0
   damage: 1
   enemySpeed: 1
+  enemyHealth: 6
   totalFreezeTime: 0.5
   totalTimeDirection: 2
   totalMovementStop: 0.3

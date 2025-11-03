@@ -7,6 +7,7 @@ public class EnemyNew : MonoBehaviour
     public bool trackPlayer;
     public float damage;
     public float enemySpeed = 2f;
+    public float enemyHealth;
     public float totalFreezeTime = 1f;
     public float totalTimeDirection = 3f;
     public float totalMovementStop = 1f;
@@ -49,6 +50,10 @@ public class EnemyNew : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(enemyHealth == 0)
+        {
+            Destroy(gameObject);
+        }
         if (player.RoomNumber == EnemyRoomNumber)
         {
             // Timer updates
@@ -216,6 +221,10 @@ public class EnemyNew : MonoBehaviour
             movementStop = totalMovementStop;
             timeDirection = 0;
         }
+        if (collision.CompareTag("Sword"))
+        {
+            enemyHealth -= collision.GetComponent<Sword>().damage;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -247,5 +256,10 @@ public class EnemyNew : MonoBehaviour
             animator.SetInteger("Facing", 2); // Up
         else if (move.y < 0)
             animator.SetInteger("Facing", -2); // Down
+    }
+
+    public void takeDamage(int dmg)
+    {
+
     }
 }

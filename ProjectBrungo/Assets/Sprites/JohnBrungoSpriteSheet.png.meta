@@ -409,6 +409,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: JohnBrungoSpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd40e7e55aa33ac44875facb0e41f0b7
+      internalID: 1819301672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JohnBrungoSpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2706f95ed5e50db43bb33807881e2795
+      internalID: 1826614064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JohnBrungoSpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5aa9fa286aaae8740b1c3de6bd81fc58
+      internalID: -846717452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JohnBrungoSpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d36f058dbaaa5694ea3679bebe9f8bdb
+      internalID: 1186907711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -427,6 +515,10 @@ TextureImporter:
       JohnBrungoSpriteSheet_1: -8126475110556470182
       JohnBrungoSpriteSheet_10: 730718236214801545
       JohnBrungoSpriteSheet_11: -2548538676514222297
+      JohnBrungoSpriteSheet_12: 1819301672
+      JohnBrungoSpriteSheet_13: 1826614064
+      JohnBrungoSpriteSheet_14: -846717452
+      JohnBrungoSpriteSheet_15: 1186907711
       JohnBrungoSpriteSheet_2: 3119991198917751526
       JohnBrungoSpriteSheet_3: 2083004789633239143
       JohnBrungoSpriteSheet_4: -4659297924125654633

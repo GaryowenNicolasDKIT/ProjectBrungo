@@ -34,6 +34,7 @@ public class Door : MonoBehaviour
                     //layer = LayerMask.NameToLayer("Floor");
                     layer = LayerMask.NameToLayer("Floor");
                     animator.SetBool("IsOpen",true);
+                    player.keyUsed("key");
                 }
             }
             else if (type.ToLower() == "bigdoor")
@@ -44,6 +45,7 @@ public class Door : MonoBehaviour
                     //layer = LayerMask.NameToLayer("Floor");
                     layer = LayerMask.NameToLayer("Floor");
                     animator.SetBool("IsOpen", true);
+                    player.keyUsed("big key");
                 }
             }
             else if (type.ToLower() == "kingdoor")
@@ -54,6 +56,7 @@ public class Door : MonoBehaviour
                     //layer = LayerMask.NameToLayer("Floor");
                     layer = LayerMask.NameToLayer("Floor");
                     animator.SetBool("IsOpen", true);
+                    player.keyUsed("king key");
                 }
             }
         }
