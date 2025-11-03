@@ -33,7 +33,7 @@ public class RoomChange : MonoBehaviour
             }
             else if (Direction == 2)
             {
-                move.x = player.GetComponent<Rigidbody2D>().position.x + 2;
+                move.x = player.GetComponent<Rigidbody2D>().position.x + 4;
                 move.y = player.GetComponent<Rigidbody2D>().position.y;
             }
             else if (Direction == 3)
@@ -43,7 +43,7 @@ public class RoomChange : MonoBehaviour
             }
             else
             {
-                move.x = player.GetComponent<Rigidbody2D>().position.y + 2;
+                move.x = player.GetComponent<Rigidbody2D>().position.x - 4;
                 move.y = player.GetComponent<Rigidbody2D>().position.y;
             }
             player.GetComponent<Rigidbody2D>().MovePosition(move);
