@@ -23,7 +23,9 @@ public class Player : MonoBehaviour
     private bool isMoving = false;
     private Rigidbody2D rb;
     private int swordRotation;
+    private int swordRotationFin;
     private Quaternion blankQuart;
+    private Vector2 finPosition;
     private Vector2 movementDirection;
     private Vector2 lastMovementDirection;
     private Vector2 playerPosition;
@@ -83,26 +85,34 @@ public class Player : MonoBehaviour
         
         if (animator.GetInteger("Direction") == 1)
         {
-            swordSpawnPosition.Set(playerPosition.x + 1, playerPosition.y);
-            swordRotation = -90;
+            swordSpawnPosition.Set(playerPosition.x + 0.6f, playerPosition.y + 0.8f);
+            swordRotation = 315;
+            finPosition = new Vector2(playerPosition.x + 0.6f, playerPosition.y - 0.8f);
+            swordRotationFin = 225;
         }
         else if (animator.GetInteger("Direction") == -1)
         {
-            swordSpawnPosition.Set(playerPosition.x - 1, playerPosition.y);
-            swordRotation = 90;
+            swordSpawnPosition.Set(playerPosition.x - 0.6f, playerPosition.y - 0.8f);
+            swordRotation = 135;
+            finPosition = new Vector2(playerPosition.x - 0.6f, playerPosition.y + 0.8f);
+            swordRotationFin = 45;
         }
         else if (animator.GetInteger("Direction") == 2)
         {
-            swordSpawnPosition.Set(playerPosition.x, playerPosition.y + 1);
-            swordRotation = 0;
+            swordSpawnPosition.Set(playerPosition.x - 0.6f, playerPosition.y + 0.8f);
+            swordRotation = 45;
+            finPosition = new Vector2(playerPosition.x + 0.6f, playerPosition.y + 0.8f);
+            swordRotationFin = 315;
         }
         else if(animator.GetInteger("Direction") == -2)
         {
-            swordSpawnPosition.Set(playerPosition.x, playerPosition.y - 1);
-            swordRotation = 180;
+            swordSpawnPosition.Set(playerPosition.x + 0.6f, playerPosition.y - 0.8f);
+            swordRotation = 225;
+            finPosition = new Vector2(playerPosition.x - 0.6f, playerPosition.y - 0.8f);
+            swordRotationFin = 135;
         }
         GameObject sword = Instantiate(swordPrefab, swordSpawnPosition, blankQuart);
-        sword.GetComponent<Sword>().swing(swordRotation, animator.GetInteger("Direction"));
+        sword.GetComponent<Sword>().swing(finPosition,swordRotation, animator.GetInteger("Direction"),swordRotationFin);
     }
 
     private void FixedUpdate()

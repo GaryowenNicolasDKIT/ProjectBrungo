@@ -159,7 +159,6 @@ MonoBehaviour:
   KBTotalTime: 0.2
   RoomNumber: 0
   swordPrefab: {fileID: 4524236273265503258, guid: d7e3f3caf5da7c34f80b63eaaa71fa00, type: 3}
-  sword: {fileID: -7284571146840742854, guid: d7e3f3caf5da7c34f80b63eaaa71fa00, type: 3}
   KBFromDirection: {x: 0, y: 0}
 --- !u!114 &4975095895388396714
 MonoBehaviour:

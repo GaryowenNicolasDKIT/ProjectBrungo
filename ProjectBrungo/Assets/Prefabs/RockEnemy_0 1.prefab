@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4f549fc53087a4db94890a68abfa70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyNew
+  EnemyRoomNumber: 0
   trackPlayer: 0
   damage: 1
   enemySpeed: 1
@@ -202,8 +203,13 @@ MonoBehaviour:
   totalFreezeTime: 0.5
   totalTimeDirection: 2
   totalMovementStop: 0.3
-  EnemyRoomNumber: 0
-  hitbox: {fileID: 0}
+  getsStunned: 1
+  KBCounter: 0
+  KBTotalTime: 0.2
+  KBForce: 3
+  hitbox: {fileID: 4445394995877963161}
+  deathAnimation: {fileID: 5187563120082132926, guid: 953b65e97f82c3148b04e0a11403d75b, type: 3}
+  KBFromDirection: {x: 0, y: 0}
 --- !u!95 &1438784273163827986
 Animator:
   serializedVersion: 7
