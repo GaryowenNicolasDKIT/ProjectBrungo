@@ -21,10 +21,13 @@ public class Health : MonoBehaviour
     public Text keyText;
     public Text keyBigText;
     public Text keyKingText;
+    public DeathScript deathScreen;
 
     private bool foundHalf = false;
     private bool isDead = false;
     private float invulnerable;
+    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +56,7 @@ public class Health : MonoBehaviour
         if (health <= 0)
         {
             isDead = true;
+            deathScreen.isDead();
         }
         UpdateHealthDisplay();
     }
