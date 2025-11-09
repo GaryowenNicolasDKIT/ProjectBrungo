@@ -18,6 +18,7 @@ public class EnemyNew : MonoBehaviour
     public GameObject hitbox;
     public GameObject deathAnimation;
 
+    private AudioSource source;
     private Animator animator;
     private Health playerHealth;
     private Player player;
@@ -29,6 +30,7 @@ public class EnemyNew : MonoBehaviour
     private float freezeTime;
     private float movementStop;
     private float timeDirection;
+
     public Vector2 KBFromDirection;
     private Vector2 oldPosition;
     private Vector2 olderPosition;
@@ -41,6 +43,7 @@ public class EnemyNew : MonoBehaviour
 
     void Awake()
     {
+        source = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAwarenessController = GetComponent<PlayerAwarenessController>();
@@ -269,6 +272,7 @@ public class EnemyNew : MonoBehaviour
     public void takeDamage(int dmg)
     {
         enemyHealth -= dmg;
+        source.Play();
         if (getsStunned)
         {
             rb.linearVelocity = Vector2.zero;

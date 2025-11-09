@@ -5,11 +5,13 @@ public class RoomChange : MonoBehaviour
 {
     public int SetRoom;
     public int Direction;
+    private AudioSource source;
     private Player player;
     private Vector2 move = Vector2.zero;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        source = GetComponent<AudioSource>();
         player = (Player)GameObject.Find("Player").GetComponent<Player>();
     }
 
@@ -25,6 +27,7 @@ public class RoomChange : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             player.RoomNumber = SetRoom;
+            source.Play();
             if(Direction == 1)
             {
                 move.y = player.GetComponent<Rigidbody2D>().position.y + 4;

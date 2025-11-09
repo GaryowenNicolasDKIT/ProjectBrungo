@@ -11,11 +11,12 @@ public class Player : MonoBehaviour
     public float KBTotalTime;
     public int RoomNumber;
     public GameObject swordPrefab;
-
+    
 
     public Vector2 KBFromDirection;
 
     private Animator animator;
+    private AudioSource source;
     private const string flashRedAnim = "FlashRed";
     private bool idle = true;
     private float untilIdleTime = 0;
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        source = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         startPosition = transform.position;
@@ -216,6 +218,7 @@ public class Player : MonoBehaviour
     {
         rb.linearVelocity = (-1 * lastMovementDirection) * speed;
         animator.SetTrigger(flashRedAnim);
+        source.Play();
         //flashRed();
     }  
     
