@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Door
   - Sword
+  - WinBox
   layers:
   - Default
   - TransparentFX

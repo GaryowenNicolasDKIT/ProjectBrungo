@@ -6,6 +6,7 @@ public class EnemyNew : MonoBehaviour
     public int EnemyRoomNumber;
     public bool trackPlayer;
     public float damage;
+    public float dropChance;
     public float enemySpeed = 2f;
     public float enemyHealth;
     public float totalFreezeTime = 1f;
@@ -17,6 +18,7 @@ public class EnemyNew : MonoBehaviour
     public float KBForce;
     public GameObject hitbox;
     public GameObject deathAnimation;
+    public GameObject drop;
 
     private AudioSource source;
     private Animator animator;
@@ -56,7 +58,11 @@ public class EnemyNew : MonoBehaviour
     {
         if(enemyHealth == 0)
         {
-            GameObject explode = Instantiate(deathAnimation, transform.position, new Quaternion(0,0,0,0));
+            if ((rnd.Next(0, 10) * dropChance * ((playerHealth.maxHealth / playerHealth.health)) * 0.5) >= 3)
+            {
+                GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 0, 0));
+            }
+            GameObject explode = Instantiate(deathAnimation, new Vector3(transform.position.x, transform.position.y, transform.position.z - 2), new Quaternion(0,0,0,0));   
             Destroy(gameObject);
         }
         if(KBCounter <= 0)
@@ -242,7 +248,6 @@ public class EnemyNew : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Wall Collision Detected — stopping movement");
             rb.linearVelocity = Vector2.zero;
 
             // Store last wall direction

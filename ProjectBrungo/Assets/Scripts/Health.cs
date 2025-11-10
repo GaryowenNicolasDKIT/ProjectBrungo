@@ -57,6 +57,7 @@ public class Health : MonoBehaviour
         {
             isDead = true;
             deathScreen.isDead();
+            Destroy(GameObject.Find("Player").GetComponent<BoxCollider2D>());
         }
         UpdateHealthDisplay();
     }

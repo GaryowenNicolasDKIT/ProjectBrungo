@@ -199,6 +199,7 @@ MonoBehaviour:
   EnemyRoomNumber: 0
   trackPlayer: 0
   damage: 1
+  dropChance: 0.5
   enemySpeed: 1
   enemyHealth: 6
   totalFreezeTime: 0.5
@@ -210,6 +211,7 @@ MonoBehaviour:
   KBForce: 3
   hitbox: {fileID: 4445394995877963161}
   deathAnimation: {fileID: 5187563120082132926, guid: 953b65e97f82c3148b04e0a11403d75b, type: 3}
+  drop: {fileID: 2869240198532849039, guid: 378fe8dc998577240935fee814c9eb58, type: 3}
   KBFromDirection: {x: 0, y: 0}
 --- !u!95 &1438784273163827986
 Animator:

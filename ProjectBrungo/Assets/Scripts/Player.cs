@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
     public float KBCounter;
     public float KBTotalTime;
     public int RoomNumber;
+
     public GameObject swordPrefab;
-    
+    public DeathScript deathScreen;
 
     public Vector2 KBFromDirection;
 
@@ -32,8 +33,6 @@ public class Player : MonoBehaviour
     private Vector2 playerPosition;
     private Vector2 startPosition;
     private Vector2 swordSpawnPosition;
-    private SpriteRenderer spriteRenderer;
-    private Sword sword;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,8 +50,8 @@ public class Player : MonoBehaviour
         playerPosition = rb.position;
         lastMovementDirection = movementDirection;
         movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        updateAnimation(movementDirection,lastMovementDirection);
-        if(GameObject.Find("MindSword(Clone)") == null)
+        updateAnimation(movementDirection, lastMovementDirection);
+        if (GameObject.Find("MindSword(Clone)") == null)
         {
             animator.SetBool("Attacking", false);
         }
@@ -84,7 +83,7 @@ public class Player : MonoBehaviour
 
     private void swordAttack()
     {
-        
+
         if (animator.GetInteger("Direction") == 1)
         {
             swordSpawnPosition.Set(playerPosition.x + 0.6f, playerPosition.y + 0.8f);
@@ -106,7 +105,7 @@ public class Player : MonoBehaviour
             finPosition = new Vector2(playerPosition.x + 0.6f, playerPosition.y + 0.8f);
             swordRotationFin = 315;
         }
-        else if(animator.GetInteger("Direction") == -2)
+        else if (animator.GetInteger("Direction") == -2)
         {
             swordSpawnPosition.Set(playerPosition.x + 0.6f, playerPosition.y - 0.8f);
             swordRotation = 225;
@@ -114,12 +113,12 @@ public class Player : MonoBehaviour
             swordRotationFin = 135;
         }
         GameObject sword = Instantiate(swordPrefab, swordSpawnPosition, blankQuart);
-        sword.GetComponent<Sword>().swing(finPosition,swordRotation, animator.GetInteger("Direction"),swordRotationFin);
+        sword.GetComponent<Sword>().swing(finPosition, swordRotation, animator.GetInteger("Direction"), swordRotationFin);
     }
 
     private void FixedUpdate()
     {
-        if((Input.GetButton("Horizontal") || Input.GetButton("Vertical")) && GameObject.Find("MindSword(Clone)") == null)
+        if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical")) && GameObject.Find("MindSword(Clone)") == null)
         {
             isMoving = true;
         }
@@ -214,12 +213,18 @@ public class Player : MonoBehaviour
             }
         }
     }
-       public void knockback()
+    public void knockback()
     {
         rb.linearVelocity = (-1 * lastMovementDirection) * speed;
         animator.SetTrigger(flashRedAnim);
         source.Play();
         //flashRed();
-    }  
-    
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("WinBox"))
+        {
+            deathScreen.isAlive();
+        }
+    }
 }
