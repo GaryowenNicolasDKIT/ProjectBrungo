@@ -106,6 +106,11 @@ public class Sword : MonoBehaviour
             hitEnemy = true;
 
         }
+
+        if (collision.gameObject.CompareTag("Sign"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
 // Update is called once per frame
